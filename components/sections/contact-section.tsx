@@ -4,21 +4,49 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { type FormData, sendEmail } from "@/app/actions/send-email"
+import { sendEmail } from "@/app/actions/send-email"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
-// Define the form schema for validation
-const formSchema = z.object({
-  firstName: z.string().min(1, { message: "Nome é obrigatório" }),
-  lastName: z.string().min(1, { message: "Sobrenome é obrigatório" }),
-  email: z.string().email({ message: "Email inválido" }),
-  subject: z.string().min(1, { message: "Assunto é obrigatório" }),
-  message: z.string().min(10, { message: "Mensagem deve ter pelo menos 10 caracteres" }),
-})
+export interface FormData {
+  firstName: string
+  lastName: string
+  email: string
+  subject: string
+  message: string
+}
+
+// Manual validation function
+const validateForm = (data: FormData) => {
+  const errors: Partial<Record<keyof FormData, string>> = {}
+
+  if (!data.firstName.trim()) {
+    errors.firstName = "Nome é obrigatório"
+  }
+
+  if (!data.lastName.trim()) {
+    errors.lastName = "Sobrenome é obrigatório"
+  }
+
+  if (!data.email.trim()) {
+    errors.email = "Email é obrigatório"
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    errors.email = "Email inválido"
+  }
+
+  if (!data.subject.trim()) {
+    errors.subject = "Assunto é obrigatório"
+  }
+
+  if (!data.message.trim()) {
+    errors.message = "Mensagem é obrigatória"
+  } else if (data.message.trim().length < 10) {
+    errors.message = "Mensagem deve ter pelo menos 10 caracteres"
+  }
+
+  return errors
+}
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -26,15 +54,9 @@ export function ContactSection() {
     success?: boolean
     message?: string
   } | null>(null)
+  const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof FormData, string>>>({})
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-  })
+  const { register, handleSubmit, reset, getValues } = useForm<FormData>()
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -42,6 +64,14 @@ export function ContactSection() {
   }
 
   const onSubmit = async (data: FormData) => {
+    // Manual validation
+    const errors = validateForm(data)
+    setValidationErrors(errors)
+
+    if (Object.keys(errors).length > 0) {
+      return
+    }
+
     setIsSubmitting(true)
     setSubmitResult(null)
 
@@ -55,6 +85,7 @@ export function ContactSection() {
 
       if (result.success) {
         reset() // Reset form on success
+        setValidationErrors({}) // Clear validation errors
       }
     } catch (error) {
       setSubmitResult({
@@ -221,10 +252,12 @@ export function ContactSection() {
                     <input
                       id="firstName"
                       {...register("firstName")}
-                      className={`flex h-10 w-full rounded-md border ${errors.firstName ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+                      className={`flex h-10 w-full rounded-md border ${validationErrors.firstName ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                       placeholder="Digite seu nome"
                     />
-                    {errors.firstName && <p className="text-sm text-destructive mt-1">{errors.firstName.message}</p>}
+                    {validationErrors.firstName && (
+                      <p className="text-sm text-destructive mt-1">{validationErrors.firstName}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="lastName" className="text-sm font-medium">
@@ -233,10 +266,12 @@ export function ContactSection() {
                     <input
                       id="lastName"
                       {...register("lastName")}
-                      className={`flex h-10 w-full rounded-md border ${errors.lastName ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+                      className={`flex h-10 w-full rounded-md border ${validationErrors.lastName ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                       placeholder="Digite seu sobrenome"
                     />
-                    {errors.lastName && <p className="text-sm text-destructive mt-1">{errors.lastName.message}</p>}
+                    {validationErrors.lastName && (
+                      <p className="text-sm text-destructive mt-1">{validationErrors.lastName}</p>
+                    )}
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -247,10 +282,10 @@ export function ContactSection() {
                     id="email"
                     type="email"
                     {...register("email")}
-                    className={`flex h-10 w-full rounded-md border ${errors.email ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+                    className={`flex h-10 w-full rounded-md border ${validationErrors.email ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                     placeholder="Digite seu email"
                   />
-                  {errors.email && <p className="text-sm text-destructive mt-1">{errors.email.message}</p>}
+                  {validationErrors.email && <p className="text-sm text-destructive mt-1">{validationErrors.email}</p>}
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="subject" className="text-sm font-medium">
@@ -259,10 +294,12 @@ export function ContactSection() {
                   <input
                     id="subject"
                     {...register("subject")}
-                    className={`flex h-10 w-full rounded-md border ${errors.subject ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+                    className={`flex h-10 w-full rounded-md border ${validationErrors.subject ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                     placeholder="Digite o assunto"
                   />
-                  {errors.subject && <p className="text-sm text-destructive mt-1">{errors.subject.message}</p>}
+                  {validationErrors.subject && (
+                    <p className="text-sm text-destructive mt-1">{validationErrors.subject}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium">
@@ -271,10 +308,12 @@ export function ContactSection() {
                   <textarea
                     id="message"
                     {...register("message")}
-                    className={`flex min-h-[120px] w-full rounded-md border ${errors.message ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+                    className={`flex min-h-[120px] w-full rounded-md border ${validationErrors.message ? "border-destructive" : "border-input"} bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                     placeholder="Digite sua mensagem"
                   />
-                  {errors.message && <p className="text-sm text-destructive mt-1">{errors.message.message}</p>}
+                  {validationErrors.message && (
+                    <p className="text-sm text-destructive mt-1">{validationErrors.message}</p>
+                  )}
                 </div>
                 <Button
                   type="submit"
