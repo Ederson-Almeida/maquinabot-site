@@ -1,17 +1,18 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+"use client"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowRight, ChevronDown } from "lucide-react"
 
-import { Button } from "@/components/ui/button";
-import { HeroSection } from "@/components/sections/hero-section";
-import { FeaturesSection } from "@/components/sections/features-section";
-import { ProjectsSection } from "@/components/sections/projects-section";
-import { SpecialtiesSection } from "@/components/sections/specialties-section";
-import { ServicesSection } from "@/components/sections/services-section";
-import { CTASection } from "@/components/sections/cta-section";
-import { AboutSection } from "@/components/sections/about-section";
-import { ContactSection } from "@/components/sections/contact-section";
+import { Button } from "@/components/ui/button"
+import { HeroSection } from "@/components/sections/hero-section"
+import { FeaturesSection } from "@/components/sections/features-section"
+import { ProjectsSection } from "@/components/sections/projects-section"
+import { SpecialtiesSection } from "@/components/sections/specialties-section"
+import { ServicesSection } from "@/components/sections/services-section"
+import { CTASection } from "@/components/sections/cta-section"
+import { AboutSection } from "@/components/sections/about-section"
+import { ContactSection } from "@/components/sections/contact-section"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 export default function Home() {
   return (
@@ -28,10 +29,7 @@ export default function Home() {
             />
           </div>
           <nav className="hidden md:flex gap-6">
-            <Link
-              href="#"
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-            >
+            <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Início
             </Link>
             <Link
@@ -70,29 +68,46 @@ export default function Home() {
             >
               Contato
             </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                Ferramentas
+                <ChevronDown className="h-3 w-3" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-80">
+                <DropdownMenuItem asChild>
+                  <a
+                    href="https://watermark.maquinabot.com.br"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-start p-4 cursor-pointer"
+                  >
+                    <div className="font-medium">Watermark</div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      Aplique marca d'água em suas imagens de forma fácil e grátis
+                    </div>
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a
+                    href="https://excalidraw.maquinabot.com.br"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-start p-4 cursor-pointer"
+                  >
+                    <div className="font-medium">Excalidraw</div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      Quadro branco virtual para esboçar diagramas com aparência de desenhos à mão.
+                    </div>
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
-          <Button
-            variant="default"
-            className="hidden md:flex bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={() => {
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            Entre em Contato
+          <Button variant="default" className="hidden md:flex bg-primary hover:bg-primary/90 text-primary-foreground">
+            Comece Agora
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="md:hidden border-primary/20"
-            onClick={() => {
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
+          <Button variant="outline" size="icon" className="md:hidden border-primary/20 bg-transparent">
             <span className="sr-only">Abrir menu</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -139,42 +154,29 @@ export default function Home() {
                 />
               </div>
               <p className="text-muted-foreground">
-                Transformando negócios através de soluções tecnológicas
-                inovadoras desde 2018.
+                Transformando negócios através de soluções tecnológicas inovadoras desde 2018.
               </p>
             </div>
             <div>
               <h3 className="font-medium text-lg mb-4">Empresa</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Sobre Nós
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Carreiras
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Cases
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Blog
                   </Link>
                 </li>
@@ -184,34 +186,22 @@ export default function Home() {
               <h3 className="font-medium text-lg mb-4">Serviços</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Desenvolvimento de Software
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Robôs para MetaTrader 5
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Análise de Dados
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Cibersegurança
                   </Link>
                 </li>
@@ -221,34 +211,22 @@ export default function Home() {
               <h3 className="font-medium text-lg mb-4">Legal</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Política de Privacidade
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Termos de Serviço
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Política de Cookies
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="#"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
+                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                     Conformidade LGPD
                   </Link>
                 </li>
@@ -256,26 +234,15 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-border/40 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-muted-foreground">
-              © 2025 MaquinaBot. Todos os direitos reservados.
-            </p>
+            <p className="text-sm text-muted-foreground">© 2025 MaquinaBot. Todos os direitos reservados.</p>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                 Privacidade
               </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                 Termos
               </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                 Contato
               </Link>
             </div>
@@ -283,5 +250,5 @@ export default function Home() {
         </div>
       </footer>
     </div>
-  );
+  )
 }

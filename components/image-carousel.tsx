@@ -83,4 +83,3 @@ export function ImageCarousel({ images, className, onImageClick }: ImageCarousel
     </div>
   )
 }
-

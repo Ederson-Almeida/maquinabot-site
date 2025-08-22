@@ -70,4 +70,3 @@ export function ImageModal({ isOpen, onClose, imageSrc, imageAlt }: ImageModalPr
     </div>
   )
 }
-

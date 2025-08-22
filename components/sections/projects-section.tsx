@@ -1,18 +1,18 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { ArrowRight, ExternalLink, Users, Calendar, Code } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ImageCarousel } from "@/components/image-carousel";
-import { useState } from "react";
-import { ImageModal } from "@/components/image-modal";
+import { motion } from "framer-motion"
+import { ArrowRight, ExternalLink, Users, Calendar, Code } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { ImageCarousel } from "@/components/image-carousel"
+import { useState } from "react"
+import { ImageModal } from "@/components/image-modal"
 
 export function ProjectsSection() {
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
+  }
 
   const staggerContainer = {
     hidden: { opacity: 0 },
@@ -22,19 +22,19 @@ export function ProjectsSection() {
         staggerChildren: 0.2,
       },
     },
-  };
+  }
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState({ src: "", alt: "" });
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedImage, setSelectedImage] = useState({ src: "", alt: "" })
 
   const openModal = (src: string, alt: string) => {
-    setSelectedImage({ src, alt });
-    setIsModalOpen(true);
-  };
+    setSelectedImage({ src, alt })
+    setIsModalOpen(true)
+  }
 
   const closeModal = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
 
   // Dados dos projetos
   const projects = [
@@ -79,14 +79,7 @@ export function ProjectsSection() {
         "Plataforma que integra ChatGPT e Gemini com WhatsApp para criar assistentes de IA personalizados. Permite automatizar atendimento ao cliente, oferecer suporte 24/7 e gerenciar múltiplas conexões de WhatsApp.",
       client: "Cometta IA",
       year: "2025",
-      technologies: [
-        "Next.js",
-        "Node.js",
-        "WhatsApp API",
-        "OpenAI",
-        "Google Gemini",
-        "MongoDB",
-      ],
+      technologies: ["Next.js", "Node.js", "WhatsApp API", "OpenAI", "Google Gemini", "MongoDB"],
       projectUrl: "https://comettaia.com.br",
       images: [
         {
@@ -117,15 +110,8 @@ export function ProjectsSection() {
         "Dashboard conectado ao MetaTrader 5 para visualização do histórico de operações, evolução do lucro da conta, operações abertas em tempo real, gestão de acessos para administradores.",
       client: "Gypps tecnologia",
       year: "2024",
-      technologies: [
-        "Next.js",
-        "Redis",
-        "PostgreSQL",
-        "WebSockets",
-        "MQL5",
-        "MetaTrader 5",
-      ],
-      projectUrl: "https://www.gypps.com.br",
+      technologies: ["Next.js", "Redis", "PostgreSQL", "WebSockets", "MQL5", "MetaTrader 5"],
+      projectUrl: "https://gypps.com.br",
       images: [
         {
           src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202025-03-23%20221852.jpg-aV8laQP3ZcIfSgH7Yz7SZhjfGPymZn.jpeg",
@@ -164,7 +150,7 @@ export function ProjectsSection() {
         },
       ],
     },
-  ];
+  ]
 
   return (
     <section id="projects" className="py-20 relative overflow-hidden">
@@ -201,11 +187,7 @@ export function ProjectsSection() {
                 index % 2 === 1 ? "lg:flex-row-reverse" : ""
               }`}
             >
-              <div
-                className={`order-1 ${
-                  index % 2 === 1 ? "lg:order-2" : "lg:order-1"
-                }`}
-              >
+              <div className={`order-1 ${index % 2 === 1 ? "lg:order-2" : "lg:order-1"}`}>
                 <div className="relative">
                   <ImageCarousel
                     images={project.images}
@@ -215,15 +197,9 @@ export function ProjectsSection() {
                 </div>
               </div>
 
-              <div
-                className={`space-y-6 order-2 ${
-                  index % 2 === 1 ? "lg:order-1" : "lg:order-2"
-                }`}
-              >
+              <div className={`space-y-6 order-2 ${index % 2 === 1 ? "lg:order-1" : "lg:order-2"}`}>
                 <h3 className="text-2xl font-bold">{project.title}</h3>
-                <p className="text-lg text-muted-foreground">
-                  {project.description}
-                </p>
+                <p className="text-lg text-muted-foreground">{project.description}</p>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -250,26 +226,15 @@ export function ProjectsSection() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech, i) => (
-                      <Badge
-                        key={i}
-                        variant="secondary"
-                        className="bg-secondary/20 text-primary"
-                      >
+                      <Badge key={i} variant="secondary" className="bg-secondary/20 text-primary">
                         {tech}
                       </Badge>
                     ))}
                   </div>
                 </div>
 
-                <a
-                  href={project.projectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button
-                    variant="outline"
-                    className="mt-4 border-primary/20 hover:bg-primary/10"
-                  >
+                <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="mt-4 border-primary/20 hover:bg-primary/10">
                     Ver Projeto
                     <ExternalLink className="ml-2 h-4 w-4" />
                   </Button>
@@ -278,13 +243,10 @@ export function ProjectsSection() {
             </motion.div>
           ))}
         </motion.div>
+
+       
       </div>
-      <ImageModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        imageSrc={selectedImage.src}
-        imageAlt={selectedImage.alt}
-      />
+      <ImageModal isOpen={isModalOpen} onClose={closeModal} imageSrc={selectedImage.src} imageAlt={selectedImage.alt} />
     </section>
-  );
+  )
 }

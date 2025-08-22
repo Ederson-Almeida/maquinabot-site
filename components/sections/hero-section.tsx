@@ -1,87 +1,73 @@
-"use client";
+"use client"
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react"
+import Image from "next/image"
+import { ArrowRight } from "lucide-react"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
-  const [typedText, setTypedText] = useState("");
-  const fullText = "Codificando algo novo | Programando o Futuro";
-  const typingSpeed = 100;
-  const cursorRef = useRef<HTMLSpanElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [typedText, setTypedText] = useState("")
+  const fullText = "Codificando algo novo | Programando o Futuro"
+  const typingSpeed = 100
+  const cursorRef = useRef<HTMLSpanElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    let currentIndex = 0;
+    let currentIndex = 0
     const typingInterval = setInterval(() => {
       if (currentIndex <= fullText.length) {
-        setTypedText(fullText.slice(0, currentIndex));
-        currentIndex++;
+        setTypedText(fullText.slice(0, currentIndex))
+        currentIndex++
       } else {
-        clearInterval(typingInterval);
+        clearInterval(typingInterval)
       }
-    }, typingSpeed);
+    }, typingSpeed)
 
     const cursorBlinkInterval = setInterval(() => {
       if (cursorRef.current) {
-        cursorRef.current.style.opacity =
-          cursorRef.current.style.opacity === "0" ? "1" : "0 ";
+        cursorRef.current.style.opacity = cursorRef.current.style.opacity === "0" ? "1" : "0 "
       }
-    }, 500);
+    }, 500)
 
     return () => {
-      clearInterval(typingInterval);
-      clearInterval(cursorBlinkInterval);
-    };
-  }, []);
+      clearInterval(typingInterval)
+      clearInterval(cursorBlinkInterval)
+    }
+  }, [])
 
   // Animação de fundo financeiro
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current) return
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
 
     // Ajustar o tamanho do canvas para preencher a seção
     const resizeCanvas = () => {
-      const heroSection = canvas.parentElement;
+      const heroSection = canvas.parentElement
       if (heroSection) {
-        canvas.width = heroSection.offsetWidth;
-        canvas.height = heroSection.offsetHeight;
+        canvas.width = heroSection.offsetWidth
+        canvas.height = heroSection.offsetHeight
       }
-    };
+    }
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas()
+    window.addEventListener("resize", resizeCanvas)
 
     // Elementos para a animação
-    const symbols = [
-      "$",
-      "€",
-      "¥",
-      "£",
-      "%",
-      "+",
-      "-",
-      "=",
-      "/",
-      "*",
-      "0",
-      "1",
-    ];
-    const chartLines = [];
-    const dataPoints = [];
-    const connections = [];
+    const symbols = ["$", "€", "¥", "£", "%", "+", "-", "=", "/", "*", "0", "1"]
+    const chartLines = []
+    const dataPoints = []
+    const connections = []
 
     // Criar linhas de gráfico
     for (let i = 0; i < 5; i++) {
-      const points = [];
-      const baseY = canvas.height * (0.3 + Math.random() * 0.4);
-      const amplitude = canvas.height * 0.05;
-      const speed = 0.2 + Math.random() * 0.3;
+      const points = []
+      const baseY = canvas.height * (0.3 + Math.random() * 0.4)
+      const amplitude = canvas.height * 0.05
+      const speed = 0.2 + Math.random() * 0.3
 
       chartLines.push({
         points,
@@ -90,7 +76,7 @@ export function HeroSection() {
         speed,
         color: `rgba(${38}, ${192}, ${86}, ${0.15 + Math.random() * 0.2})`,
         width: 1 + Math.random() * 2,
-      });
+      })
     }
 
     // Criar pontos de dados
@@ -102,13 +88,13 @@ export function HeroSection() {
         speed: 0.2 + Math.random() * 0.5,
         color: `rgba(${38}, ${192}, ${86}, ${0.1 + Math.random() * 0.3})`,
         symbol: symbols[Math.floor(Math.random() * symbols.length)],
-      });
+      })
     }
 
     // Criar conexões entre pontos
     for (let i = 0; i < 30; i++) {
-      const startPoint = Math.floor(Math.random() * dataPoints.length);
-      const endPoint = Math.floor(Math.random() * dataPoints.length);
+      const startPoint = Math.floor(Math.random() * dataPoints.length)
+      const endPoint = Math.floor(Math.random() * dataPoints.length)
 
       if (startPoint !== endPoint) {
         connections.push({
@@ -116,113 +102,103 @@ export function HeroSection() {
           end: endPoint,
           width: 0.5 + Math.random() * 1,
           color: `rgba(${38}, ${192}, ${86}, ${0.05 + Math.random() * 0.1})`,
-        });
+        })
       }
     }
 
     // Função de animação
-    let animationFrame: number;
-    let time = 0;
+    let animationFrame: number
+    let time = 0
 
     const animate = () => {
-      time += 0.01;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      time += 0.01
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       // Desenhar linhas de gráfico
       chartLines.forEach((line) => {
-        ctx.beginPath();
-        ctx.strokeStyle = line.color;
-        ctx.lineWidth = line.width;
+        ctx.beginPath()
+        ctx.strokeStyle = line.color
+        ctx.lineWidth = line.width
 
         for (let x = 0; x < canvas.width; x += 5) {
-          const y =
-            line.baseY +
-            Math.sin(x * 0.01 + time * line.speed) * line.amplitude;
+          const y = line.baseY + Math.sin(x * 0.01 + time * line.speed) * line.amplitude
 
           if (x === 0) {
-            ctx.moveTo(x, y);
+            ctx.moveTo(x, y)
           } else {
-            ctx.lineTo(x, y);
+            ctx.lineTo(x, y)
           }
         }
 
-        ctx.stroke();
-      });
+        ctx.stroke()
+      })
 
       // Desenhar pontos de dados e símbolos
       dataPoints.forEach((point) => {
-        point.x += point.speed;
+        point.x += point.speed
         if (point.x > canvas.width) {
-          point.x = 0;
-          point.y = Math.random() * canvas.height;
+          point.x = 0
+          point.y = Math.random() * canvas.height
         }
 
-        ctx.fillStyle = point.color;
-        ctx.font = `${point.size * 5}px monospace`;
-        ctx.fillText(point.symbol, point.x, point.y);
-      });
+        ctx.fillStyle = point.color
+        ctx.font = `${point.size * 5}px monospace`
+        ctx.fillText(point.symbol, point.x, point.y)
+      })
 
       // Desenhar conexões
       connections.forEach((conn) => {
-        const start = dataPoints[conn.start];
-        const end = dataPoints[conn.end];
+        const start = dataPoints[conn.start]
+        const end = dataPoints[conn.end]
 
-        ctx.beginPath();
-        ctx.strokeStyle = conn.color;
-        ctx.lineWidth = conn.width;
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
-        ctx.stroke();
-      });
+        ctx.beginPath()
+        ctx.strokeStyle = conn.color
+        ctx.lineWidth = conn.width
+        ctx.moveTo(start.x, start.y)
+        ctx.lineTo(end.x, end.y)
+        ctx.stroke()
+      })
 
       // Desenhar gráfico de candlestick simplificado
-      const candleWidth = 8;
-      const candleGap = 4;
-      const candleCount = Math.floor(canvas.width / (candleWidth + candleGap));
-      const startX =
-        (canvas.width - candleCount * (candleWidth + candleGap)) / 2;
+      const candleWidth = 8
+      const candleGap = 4
+      const candleCount = Math.floor(canvas.width / (candleWidth + candleGap))
+      const startX = (canvas.width - candleCount * (candleWidth + candleGap)) / 2
 
       for (let i = 0; i < candleCount; i++) {
-        const x = startX + i * (candleWidth + candleGap);
-        const candleHeight = 20 + Math.sin(i * 0.2 + time) * 15;
-        const isUp = Math.sin(i * 0.5 + time * 2) > 0;
+        const x = startX + i * (candleWidth + candleGap)
+        const candleHeight = 20 + Math.sin(i * 0.2 + time) * 15
+        const isUp = Math.sin(i * 0.5 + time * 2) > 0
 
-        ctx.fillStyle = isUp
-          ? "rgba(38, 192, 86, 0.5)"
-          : "rgba(239, 68, 68, 0.5)";
+        ctx.fillStyle = isUp ? "rgba(38, 192, 86, 0.5)" : "rgba(239, 68, 68, 0.5)"
 
-        const y = canvas.height * 0.7 - (isUp ? candleHeight : 0);
-        ctx.fillRect(x, y, candleWidth, candleHeight);
+        const y = canvas.height * 0.7 - (isUp ? candleHeight : 0)
+        ctx.fillRect(x, y, candleWidth, candleHeight)
 
         // Desenhar sombras
-        ctx.beginPath();
-        ctx.strokeStyle = isUp
-          ? "rgba(38, 192, 86, 0.5)"
-          : "rgba(239, 68, 68, 0.5)";
-        ctx.lineWidth = 1;
-        ctx.moveTo(x + candleWidth / 2, y - 10 - Math.random() * 10);
-        ctx.lineTo(
-          x + candleWidth / 2,
-          y + candleHeight + 10 + Math.random() * 10
-        );
-        ctx.stroke();
+        ctx.beginPath()
+        ctx.strokeStyle = isUp ? "rgba(38, 192, 86, 0.5)" : "rgba(239, 68, 68, 0.5)"
+        ctx.lineWidth = 1
+        ctx.moveTo(x + candleWidth / 2, y - 10 - Math.random() * 10)
+        ctx.lineTo(x + candleWidth / 2, y + candleHeight + 10 + Math.random() * 10)
+        ctx.stroke()
       }
 
-      animationFrame = requestAnimationFrame(animate);
-    };
+      animationFrame = requestAnimationFrame(animate)
+    }
 
-    animate();
+    animate()
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animationFrame);
-    };
-  }, []);
+      window.removeEventListener("resize", resizeCanvas)
+      cancelAnimationFrame(animationFrame)
+    }
+  }, [])
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
+  }
 
   // Dados das tecnologias para o ticker
   const technologiesRow1 = [
@@ -310,7 +286,7 @@ export function HeroSection() {
       ),
       label: "Tailwind",
     },
-  ];
+  ]
 
   const technologiesRow2 = [
     {
@@ -385,7 +361,7 @@ export function HeroSection() {
       ),
       label: "AI/ML",
     },
-  ];
+  ]
 
   return (
     <section className="relative overflow-hidden py-20 md:py-32 lg:py-40">
@@ -399,19 +375,10 @@ export function HeroSection() {
       <div className="absolute h-full w-full bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb),0.12),transparent_65%)]"></div>
 
       <div className="container relative z-10">
-        <motion.div
-          className="mx-auto max-w-4xl text-center"
-          initial="hidden"
-          animate="visible"
-          variants={fadeInUp}
-        >
+        <motion.div className="mx-auto max-w-4xl text-center" initial="hidden" animate="visible" variants={fadeInUp}>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
-            <span className="block sm:text-4xl md:text-5xl lg:text-6xl">
-              Desenvolvendo Softwares com
-            </span>
-            <span className="block mt-1 text-primary">
-              Tecnologias Inovadoras
-            </span>
+            <span className="block sm:text-4xl md:text-5xl lg:text-6xl">Desenvolvendo Softwares com</span>
+            <span className="block mt-1 text-primary">Tecnologias Inovadoras</span>
           </h1>
 
           {/* Selo de especialização */}
@@ -449,28 +416,11 @@ export function HeroSection() {
             </p>
           </div>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              onClick={() => {
-                document
-                  .getElementById("contact")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
+            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               Entre em contato
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-primary/20 hover:bg-primary/10"
-              onClick={() => {
-                document
-                  .getElementById("projects")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
+            <Button size="lg" variant="outline" className="border-primary/20 hover:bg-primary/10">
               Ver Projetos
             </Button>
           </div>
@@ -479,9 +429,7 @@ export function HeroSection() {
 
       {/* Tech Stack Ticker - NOVO (duas linhas) */}
       <div className="mt-16">
-        <p className="text-sm text-muted-foreground text-center mb-4">
-          TECNOLOGIAS QUE UTILIZAMOS
-        </p>
+        <p className="text-sm text-muted-foreground text-center mb-4">TECNOLOGIAS QUE UTILIZAMOS</p>
 
         {/* Primeira linha - deslizando para a esquerda */}
         <div className="ticker-container ticker-container-top">
@@ -534,5 +482,5 @@ export function HeroSection() {
 
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
     </section>
-  );
+  )
 }
