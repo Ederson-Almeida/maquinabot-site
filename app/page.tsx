@@ -211,7 +211,7 @@ export default function Home() {
               <h3 className="font-medium text-lg mb-4">Legal</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
                     Política de Privacidade
                   </Link>
                 </li>
@@ -236,7 +236,7 @@ export default function Home() {
           <div className="border-t border-border/40 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-muted-foreground">© 2025 MaquinaBot. Todos os direitos reservados.</p>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
                 Privacidade
               </Link>
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
