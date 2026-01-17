@@ -42,15 +42,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className="dark">
-      <head>
+      <body className={`${spaceGrotesk.variable} font-sans`}>
+        {children}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5749445498360529"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-      </head>
-      <body className={`${spaceGrotesk.variable} font-sans`}>{children}</body>
+      </body>
     </html>
   )
 }
