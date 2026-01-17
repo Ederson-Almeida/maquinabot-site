@@ -100,6 +100,17 @@ export default function Home() {
                     </div>
                   </a>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/tools/meu-diario"
+                    className="flex flex-col items-start p-4 cursor-pointer"
+                  >
+                    <div className="font-medium">Meu Diário</div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      Seu espaço pessoal e seguro para registrar memórias e pensamentos.
+                    </div>
+                  </Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </nav>
